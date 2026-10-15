@@ -21,6 +21,17 @@ pipeline {
                 }
             }
         }
+        stage('Deploy dengan Database') {
+            steps {
+                bat 'docker compose up -d --build'
+            }
+        }
+        stage('Verifikasi') {
+            steps {
+                bat 'ping -n 16 127.0.0.1 >nul'
+                bat 'curl -s http://localhost:5000'
+            }
+        }
     }
     post { always { echo 'Selesai build' } }
 }
